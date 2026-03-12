@@ -219,6 +219,13 @@ function ThoughtCard({
         value={textDraft}
         onChange={(e) => setTextDraft(e.target.value.toLowerCase())}
         onBlur={commitText}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            commitText();
+            onToggleEdit(id);
+          }
+        }}
         className="typewriter-input absolute inset-0 h-full w-full resize-none bg-transparent p-4 text-[15px] leading-6 text-black/90 outline-none"
       />
     </div>
