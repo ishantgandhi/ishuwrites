@@ -1,27 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import ThoughtBoard from "@/components/ThoughtBoard";
 
 const ACCESS_CODE = "khuljass";
-const STORAGE_KEY = "ishu.writes:unlocked";
 
 export default function AccessGate() {
-  const [ready, setReady] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
   const [code, setCode] = useState("");
   const [error, setError] = useState(false);
-
-  useEffect(() => {
-    try {
-      const v = localStorage.getItem(STORAGE_KEY);
-      if (v === "1") setUnlocked(true);
-    } finally {
-      setReady(true);
-    }
-  }, []);
 
   const canSubmit = useMemo(() => code.trim().length > 0, [code]);
 
@@ -33,14 +22,7 @@ export default function AccessGate() {
     }
     setError(false);
     setUnlocked(true);
-    try {
-      localStorage.setItem(STORAGE_KEY, "1");
-    } catch {
-      // ignore
-    }
   };
-
-  if (!ready) return null;
 
   return (
     <div className="min-h-screen p-2">
