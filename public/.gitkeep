@@ -1,0 +1,11 @@
+# Public Folder
+
+Place your static assets here:
+- Images
+- Fonts
+- Icons
+- Other static files
+
+Files in this folder can be accessed from the root URL.
+Example: /public/image.jpg -> accessible at /image.jpg
+
