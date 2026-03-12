@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useMemo, useState } from "react";
 
 import ImageGallery from "@/components/ImageGallery";
@@ -14,6 +13,7 @@ export default function ThoughtBoard({ initialCount = 8 }: { initialCount?: numb
   const [ids, setIds] = useState<string[]>(() =>
     Array.from({ length: Math.max(0, initialCount) }, () => makeId()),
   );
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const cards = useMemo(
     () =>
@@ -33,15 +33,19 @@ export default function ThoughtBoard({ initialCount = 8 }: { initialCount?: numb
         <button
           type="button"
           onClick={() => setIds((prev) => [...prev, makeId()])}
-          className="rounded-2xl bg-black/5 p-2"
+          className="typewriter-input rounded-l border border-black/10 bg-black/5 px-3 py-2 text-sm text-black/80"
           aria-label="Add new card"
           title="Add new card"
         >
-          <Image src="/icon.svg" alt="App icon" width={36} height={36} />
+          add
         </button>
       </div>
 
-      <ImageGallery images={cards} />
+      <ImageGallery
+        images={cards}
+        editingId={editingId}
+        onToggleEdit={(id) => setEditingId((prev) => (prev === id ? null : id))}
+      />
     </div>
   );
 }
