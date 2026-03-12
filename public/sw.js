@@ -26,6 +26,12 @@ self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET") return;
 
+  // Always bypass cache for API routes so latest thoughts are loaded.
+  if (new URL(request.url).pathname.startsWith("/api/")) {
+    event.respondWith(fetch(request));
+    return;
+  }
+
   event.respondWith(
     caches.match(request).then((cached) => {
       const fetchPromise = fetch(request)
