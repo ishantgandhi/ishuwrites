@@ -1,7 +1,8 @@
-import { prisma } from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+  const prisma = getPrisma();
   const body = (await request.json().catch(() => ({}))) as { text?: string; createdTime?: string };
 
   const data: { text?: string; createdTime?: Date } = {};
@@ -18,6 +19,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 }
 
 export async function DELETE(_request: Request, { params }: { params: { id: string } }) {
+  const prisma = getPrisma();
   await prisma.thought.delete({ where: { id: params.id } });
   return NextResponse.json({ ok: true });
 }

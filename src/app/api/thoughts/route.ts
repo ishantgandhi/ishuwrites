@@ -1,7 +1,8 @@
-import { prisma } from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET() {
+  const prisma = getPrisma();
   const thoughts = await prisma.thought.findMany({
     orderBy: { createdTime: "desc" },
     select: { id: true, text: true, createdTime: true, updatedAt: true },
@@ -10,6 +11,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const prisma = getPrisma();
   const body = (await request.json().catch(() => ({}))) as { text?: string; createdTime?: string };
   const createdTime = body.createdTime ? new Date(body.createdTime) : undefined;
 

@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import ServiceWorkerRegistrar from "@/components/ServiceWorkerRegistrar";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -10,6 +11,12 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
     apple: "/icon.svg",
+  },
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "ishu.writes",
+    statusBarStyle: "default",
   },
   metadataBase: new URL("https://ishuwrites.com"),
   openGraph: {
@@ -36,6 +43,10 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#f8f4ec",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -44,6 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ServiceWorkerRegistrar />
         {children}
       </body>
     </html>

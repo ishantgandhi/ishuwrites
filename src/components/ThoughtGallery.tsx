@@ -120,8 +120,10 @@ function ThoughtCard({
 
   const commitText = () => {
     if (!isEditing) return;
-    if (textDraft === text) return;
-    onUpdateText(id, textDraft);
+    const next = textDraft.toLowerCase();
+    if (next === text) return;
+    onUpdateText(id, next);
+    setTextDraft(next);
   };
 
   return (
@@ -174,7 +176,18 @@ function ThoughtCard({
             <input
               id={inputId}
               value={dateDraft}
-              onChange={(e) => setDateDraft(e.target.value)}
+              onChange={(e) => {
+                const raw = e.target.value;
+                // Keep only digits, build dd-mm-yyyy as you type.
+                const digits = raw.replace(/\D/g, "").slice(0, 8);
+                let formatted = digits;
+                if (digits.length > 2 && digits.length <= 4) {
+                  formatted = `${digits.slice(0, 2)}-${digits.slice(2)}`;
+                } else if (digits.length > 4) {
+                  formatted = `${digits.slice(0, 2)}-${digits.slice(2, 4)}-${digits.slice(4)}`;
+                }
+                setDateDraft(formatted);
+              }}
               onBlur={commitDate}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -204,7 +217,7 @@ function ThoughtCard({
         placeholder="Write a thought…"
         readOnly={!isEditing}
         value={textDraft}
-        onChange={(e) => setTextDraft(e.target.value)}
+        onChange={(e) => setTextDraft(e.target.value.toLowerCase())}
         onBlur={commitText}
         className="typewriter-input absolute inset-0 h-full w-full resize-none bg-transparent p-4 text-[15px] leading-6 text-black/90 outline-none"
       />
