@@ -150,7 +150,7 @@ function ThoughtCard({
         {isEditing ? (
           <label
             htmlFor={inputId}
-            className="typewriter-input rounded-md border border-black/10 bg-[#fbf7ef]/70 px-2 py-1 text-[11px] text-black/60 backdrop-blur"
+            className="typewriter-input inline-flex items-center rounded-md border border-black/10 bg-[#fbf7ef]/70 px-2 py-1 text-[11px] leading-none text-black/60 backdrop-blur"
           >
             <input
               id={inputId}
@@ -169,12 +169,13 @@ function ThoughtCard({
                 }
               }}
               inputMode="numeric"
-              className="w-[92px] bg-transparent outline-none"
+              size={10}
+              className="bg-transparent p-0 text-right leading-none outline-none [font-variant-numeric:tabular-nums]"
               aria-label="Edit date (dd-mm-yyyy)"
             />
           </label>
         ) : (
-          <div className="pointer-events-none typewriter-input rounded-md border border-black/10 bg-[#fbf7ef]/70 px-2 py-1 text-[11px] text-black/60 backdrop-blur">
+          <div className="pointer-events-none typewriter-input inline-flex items-center rounded-md border border-black/10 bg-[#fbf7ef]/70 px-2 py-1 text-[11px] leading-none text-black/60 backdrop-blur [font-variant-numeric:tabular-nums]">
             {formatDMY(createdTime)}
           </div>
         )}
