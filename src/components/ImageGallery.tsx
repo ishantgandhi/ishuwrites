@@ -2,7 +2,6 @@
 
 type ImageData = {
   id: string;
-  name: string;
   createdTime: string;
   url: string;
 };
