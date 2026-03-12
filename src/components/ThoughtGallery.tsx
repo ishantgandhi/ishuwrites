@@ -4,8 +4,8 @@ import { useEffect, useId, useState } from "react";
 
 type ThoughtData = {
   id: string;
+  text: string;
   createdTime: string;
-  url: string;
 };
 
 function formatDMY(iso: string) {
@@ -46,12 +46,14 @@ export default function ThoughtGallery({
   onToggleEdit,
   onDelete,
   onUpdateDate,
+  onUpdateText,
 }: {
   thoughts: ThoughtData[];
   editingId: string | null;
   onToggleEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onUpdateDate: (id: string, createdTimeISO: string) => void;
+  onUpdateText: (id: string, text: string) => void;
 }) {
   const hasThoughts = thoughts.length > 0;
 
@@ -63,11 +65,13 @@ export default function ThoughtGallery({
         <ThoughtCard
           key={t.id}
           id={t.id}
+          text={t.text}
           createdTime={t.createdTime}
           isEditing={editingId === t.id}
           onToggleEdit={onToggleEdit}
           onDelete={onDelete}
           onUpdateDate={onUpdateDate}
+          onUpdateText={onUpdateText}
         />
       ))}
     </div>
@@ -76,25 +80,34 @@ export default function ThoughtGallery({
 
 function ThoughtCard({
   id,
+  text,
   createdTime,
   isEditing,
   onToggleEdit,
   onDelete,
   onUpdateDate,
+  onUpdateText,
 }: {
   id: string;
+  text: string;
   createdTime: string;
   isEditing: boolean;
   onToggleEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onUpdateDate: (id: string, createdTimeISO: string) => void;
+  onUpdateText: (id: string, text: string) => void;
 }) {
   const inputId = useId();
   const [dateDraft, setDateDraft] = useState(() => formatDMY(createdTime));
+  const [textDraft, setTextDraft] = useState(text);
 
   useEffect(() => {
     setDateDraft(formatDMY(createdTime));
   }, [createdTime]);
+
+  useEffect(() => {
+    setTextDraft(text);
+  }, [text]);
 
   const commitDate = () => {
     const iso = parseDMYToISO(dateDraft);
@@ -103,6 +116,12 @@ function ThoughtCard({
       return;
     }
     onUpdateDate(id, iso);
+  };
+
+  const commitText = () => {
+    if (!isEditing) return;
+    if (textDraft === text) return;
+    onUpdateText(id, textDraft);
   };
 
   return (
@@ -184,6 +203,9 @@ function ThoughtCard({
       <textarea
         placeholder="Write a thought…"
         readOnly={!isEditing}
+        value={textDraft}
+        onChange={(e) => setTextDraft(e.target.value)}
+        onBlur={commitText}
         className="typewriter-input absolute inset-0 h-full w-full resize-none bg-transparent p-4 text-[15px] leading-6 text-black/90 outline-none"
       />
     </div>

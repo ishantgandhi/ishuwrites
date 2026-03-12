@@ -1,0 +1,7 @@
+-- CreateTable
+CREATE TABLE "Thought" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "text" TEXT NOT NULL DEFAULT '',
+    "createdTime" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);

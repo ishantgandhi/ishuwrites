@@ -35,7 +35,7 @@ export default function AccessGate() {
           transition={{ duration: 0.35, ease: "easeOut" }}
         >
           {unlocked ? (
-            <ThoughtBoard initialCount={10} />
+            <ThoughtBoard />
           ) : (
             <div className="flex min-h-[70vh] items-center justify-center">
               <div className="w-full max-w-sm">
