@@ -37,7 +37,7 @@ export default function AccessGate() {
           {unlocked ? (
             <ThoughtBoard />
           ) : (
-            <div className="flex min-h-[70vh] items-center justify-center">
+            <div className="flex min-h-screen items-center justify-center">
               <div className="w-full max-w-sm">
                 <div className="typewriter-input text-black/90 text-lg tracking-tight">ishu writes</div>
 

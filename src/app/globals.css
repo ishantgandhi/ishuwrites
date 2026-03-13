@@ -29,6 +29,12 @@ body {
   letter-spacing: 0.01em;
 }
 
+/* Prevent iOS zoom-on-focus by keeping form fields at >=16px */
+input.typewriter-input,
+textarea.typewriter-input {
+  font-size: 16px;
+}
+
 .typewriter-input::placeholder {
   color: rgba(0, 0, 0, 0.35);
 }
